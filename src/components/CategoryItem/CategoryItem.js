@@ -1,7 +1,5 @@
-import * as React from 'react';
 // @mui
 import Card from '@mui/material/Card';
-import AddIcon from '@mui/icons-material/Add';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea, styled } from '@mui/material';
@@ -19,7 +17,7 @@ const StyledCardContent = styled(CardContent)({
 
 // ------------------------
 
-export default function ProductItem({src, title, id}) {
+export default function CategoryItem({src, title, id}) {
   return (
     <Card sx={{maxHeight: 110, borderRadius: '10%'}}>
       <CardActionArea component={RouterLink} to={`/categories/${id}`}>

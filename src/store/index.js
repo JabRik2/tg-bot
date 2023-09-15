@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import categories from "../components/CategoriesList/categoriesSlice";
-import products from "../components/ProductsList/productsSlice";
-import cart from "../components/Cart/cartSlice";
 import auth from "../components/App/appSlice";
-import productPage from "../components/ProductPage/productPageSlice";
+import cart from "../pages/CartPage/cartPageSlice";
+import productPage from "../pages/SingleProductPage/singleProductPageSlice";
+import products from "../pages/ProductsListPage/productsListPageSlice";
+import categories from "../pages/CategoriesListPage/categoriesListPageSlice";
+
 
 
 const store = configureStore({

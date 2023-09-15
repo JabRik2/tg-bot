@@ -9,11 +9,11 @@ const initialState = {
 export const fetchCategories = createAsyncThunk(
     'categories/fetchCategories',
     async () => {
-        return (await axios.get('http://localhost:3001/categories')).data;
+        return (await axios.get('https://my-json-server.typicode.com/JabRik2/json/categories')).data;
     }
 )
 
-const caregoriesSlice = createSlice({
+const caregoriesListPageSlice = createSlice({
     name: 'categories',
     initialState,
     reducers: {
@@ -34,6 +34,6 @@ const caregoriesSlice = createSlice({
     }
 });
 
-const {reducer} = caregoriesSlice;
+const {reducer} = caregoriesListPageSlice;
 
 export default reducer;

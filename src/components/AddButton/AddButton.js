@@ -1,44 +1,63 @@
+import { useEffect, useState } from "react";
+// @mui
 import { Button, ButtonGroup } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useEffect, useState } from "react";
+// redux
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPostUserCart } from "../Cart/cartSlice";
+import { fetchPostUserCart } from "../../pages/CartPage/cartPageSlice";
 
 export default function AddButton ({id, value, price}) {
     const [counter, setCounter] = useState(value ? value : 0);
+    const [controller, setController] = useState(null);
 
     useEffect(() => {
         setCounter(value);
+        setController(new AbortController());
     }, [value]);
 
     const dispatch = useDispatch();
-    const {currUserID} = useSelector(state => state.cart);
+    const {currUserID} = useSelector(state => state.auth);
 
     const onDec = () => {
         if (counter > 0) {
-            setCounter((prev) => {
-                dispatch(fetchPostUserCart({
-                    userId: currUserID, 
-                    price,
-                    minus: true,
-                    productID: id, 
-                    value: prev - 1
-                }));
-                return prev - 1;
+            controller.abort();
+            setController(() => {
+                const controller = new AbortController();
+                const signal = controller.signal;
+
+                setCounter((prev) => {
+                    dispatch(fetchPostUserCart({
+                        userId: currUserID, 
+                        price,
+                        productID: id, 
+                        value: prev - 1,
+                        signal
+                    }));
+                    return prev - 1;
+                });
+                return controller;
             });
         }
     }
 
     const onInc = () => {
-        setCounter((prev) => {
-            dispatch(fetchPostUserCart({
-                userId: currUserID, 
-                price,
-                productID: id, 
-                value: prev + 1
-            }));
-            return prev + 1
+        controller.abort();
+        setController(() => {
+            const controller = new AbortController();
+            const signal = controller.signal;
+
+            setCounter((prev) => {
+                dispatch(fetchPostUserCart({
+                    userId: currUserID, 
+                    price,
+                    productID: id, 
+                    value: prev + 1,
+                    signal
+                }));
+                return prev + 1;
+            });
+            return controller;
         });
     }
 

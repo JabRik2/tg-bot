@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from "react-redux";
-import { setTerm } from "../ProductsList/productsSlice";
+import { setTerm } from "../../pages/ProductsListPage/productsListPageSlice";
 
 
 export default function SearchBar () {

@@ -12,11 +12,11 @@ const initialState = {
 export const fetchProductById = createAsyncThunk(
     'product/fetchProductById',
     async (id) => {
-        return (await axios.get(`http://localhost:3001/products/${id}`)).data;
+        return (await axios.get(`https://my-json-server.typicode.com/JabRik2/json/products/${id}`)).data;
     }
 );
 
-const productPageSlice = createSlice({
+const SingleProductPageSlice = createSlice({
     name: 'product',
     initialState,
     reducers: {},
@@ -42,5 +42,5 @@ const productPageSlice = createSlice({
     }
 });
 
-const {reducer} = productPageSlice;
+const {reducer} = SingleProductPageSlice;
 export default reducer;

@@ -2,33 +2,33 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    currUserID: 1,
     cartProducts: {},
 }
 
 export const fetchUserById = createAsyncThunk(
     'cart/fetchUserById',
     async (id) => {
-        return (await axios.get(`http://localhost:3001/users/${id}`)).data;
+        return (await axios.get(`https://my-json-server.typicode.com/JabRik2/json/users/${id}`)).data;
     }
 );
 export const fetchPostUserCart = createAsyncThunk(
     'cart/fetchPostUserCart',
-    async ({userId, productID, value, price}, {getState}) => {
+    async ({userId, productID, value, price, signal}, {getState}) => {
         const {cart} = getState();
         let data = {...cart.cartProducts};
         data[productID] = {
             count: value,
             price: price
         };
-        return (await axios.patch(`http://localhost:3001/users/${userId}`, {
+        return (await axios.patch(`https://my-json-server.typicode.com/JabRik2/json/users/${userId}`, {
             cart: {
                 ...data
-            }})).data;
+            }}, {signal})
+            .catch(e => {})).data;
     }
 );
 
-const cartSlice = createSlice({
+const cartPageSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {},
@@ -44,5 +44,5 @@ const cartSlice = createSlice({
     }
 });
 
-const {reducer} = cartSlice;
+const {reducer} = cartPageSlice;
 export default reducer;

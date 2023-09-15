@@ -1,19 +1,26 @@
-// styles
-import { StyledH1 } from "./styles";
+import { useEffect, useMemo, useState } from "react";
+// telegram
+import { MainButton, useShowPopup } from "@vkruglikov/react-telegram-web-app";
 // @mui
-import {Grid, CircularProgress, Alert, Typography} from "@mui/material";
+import {Grid, CircularProgress, Alert, Typography, styled} from "@mui/material";
 // components
-import ProductItem from "../ProductItem/ProductItem";
+import ProductItem from "../../components/ProductItem/ProductItem";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-// Router
-import { useEffect, useMemo, useRef, useState } from "react";
-import { fetchProducts } from "../ProductsList/productsSlice";
-import { fetchUserById } from "./cartSlice";
+import { fetchProducts } from "../ProductsListPage/productsListPageSlice";
+import { fetchUserById } from "./cartPageSlice";
+// hooks
+import useSendData from "../../hooks/telegramHooks/useSendData";
 
+// ------------------------------------
 
+export const StyledH1 = styled('h1')({
+    color: '#444444'
+});
 
-export default function Cart () {
+// ------------------------------------
+
+export default function CartPage () {
     const {products, loadingStatus} = useSelector(state => state.products);
     const {cartProducts} = useSelector(state => state.cart);
 
@@ -24,7 +31,8 @@ export default function Cart () {
     useEffect(() => {
         dispatch(fetchUserById(userId))
         dispatch(fetchProducts());
-    }, []);
+        // eslint-disable-next-line
+    }, [userId]);
 
 
     const loading = loadingStatus === 'loading' ? <CircularProgress /> : null;
@@ -41,7 +49,17 @@ export default function Cart () {
     );
 }
 
+
+const tg = window.Telegram.WebApp;
+
 const View = ({products, cartProducts}) => {
+    const userId = useSelector(state => state.auth.currUserID);
+
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+    const sendData = useSendData();
+    const showPopup = useShowPopup();
+
     const items = products.filter(({id}) => {
         return cartProducts[id] ? cartProducts[id].count : false;
     }).map(({id, image, name, price}, i) => {
@@ -61,7 +79,24 @@ const View = ({products, cartProducts}) => {
 
     const totalPrice = useMemo(() => {
         return Object.keys(cartProducts).reduce((acc, key) => acc + cartProducts[key].price * cartProducts[key].count, 0);
-    });
+    }, [cartProducts]);
+
+    const onClickBuyButton = () => {
+        setIsButtonDisabled(true);
+        sendData({userId, cart: cartProducts})
+            .then(() => {
+                setTimeout(() => {
+                    tg.close();
+                    setIsButtonDisabled(false);
+                }, 1)
+            })
+            .catch(() => {
+                setTimeout(() => {
+                    showPopup({message: 'Ошибка, попробуйте перезапустить приложение'});
+                    setIsButtonDisabled(false);
+                }, 1)
+            });
+    }
 
     return (
         <>
@@ -73,6 +108,8 @@ const View = ({products, cartProducts}) => {
             {totalPrice ? <Typography variant="h5" sx={{mt: 2}} color="text.secondary">
                 <b>Итого:</b> {totalPrice} ₽
             </Typography> : null}
+
+            {totalPrice ? <MainButton progress={isButtonDisabled} disabled={isButtonDisabled} text="Купить" onClick={onClickBuyButton} /> : null}
         </>
     )
 };

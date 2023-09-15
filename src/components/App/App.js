@@ -1,18 +1,14 @@
-import { useEffect } from 'react';
 // @mui
 import { styled } from '@mui/material';
 import Container from '@mui/material/Container';
 // react-router
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-// axios
-// import axios from 'axios';
+import { Route, Routes, Navigate, HashRouter } from "react-router-dom";
 // Components
-import ProductsList from '../ProductsList/ProductsList';
-import CategoriesList from '../CategoriesList/CategoriesList';
-import Cart from '../Cart/Cart';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserById } from '../Cart/cartSlice';
-import ProductPage from '../ProductPage/ProductPage';
+import ProductsListPage from '../../pages/ProductsListPage/ProductsListPage';
+import CategoriesListPage from '../../pages/CategoriesListPage/CategoriesListPage';
+import CartPage from '../../pages/CartPage/CartPage';
+import SingleProductPage from '../../pages/SingleProductPage/SingleProductPage';
+import HomeRoutes from '../HomeRoutes/HomeRoutes';
 
 // ----------------------------------------------
 
@@ -28,17 +24,21 @@ const StyledContainer = styled(Container)({
 
 function App() {
   return (
-    <StyledContainer maxWidth='xs'>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Navigate to={'/categories'}/>} />
-          <Route path='/categories' element={<CategoriesList />} />
-          <Route path='/categories/:id' element={<ProductsList />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/products/:id' element={<ProductPage />} />
-        </Routes>
-      </Router>
-    </StyledContainer>
+    <>
+      <StyledContainer maxWidth='xs'>
+        <HashRouter>
+          <Routes>
+            <Route path='' element={<HomeRoutes/>} >
+              <Route path='' element={<Navigate to={'/categories'}/>} />
+              <Route path='/categories' element={<CategoriesListPage />} />
+              <Route path='/categories/:id' element={<ProductsListPage />} />
+              <Route path='/cart' element={<CartPage />} />
+              <Route path='/products/:id' element={<SingleProductPage />} />
+            </Route>
+          </Routes>
+        </HashRouter>
+      </StyledContainer>
+    </>
   );
 }
 

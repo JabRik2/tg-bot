@@ -1,13 +1,13 @@
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchProductById } from "./productPageSlice";
+import { fetchProductById } from "./singleProductPageSlice";
 import { Alert, CircularProgress } from "@mui/material";
 import { useParams } from "react-router";
-import ProductPageItem from "../ProductPageItem/ProductPageItem";
-import { fetchUserById } from "../Cart/cartSlice";
+import ProductPageItem from "../../components/ProductPageItem/ProductPageItem";
+import { fetchUserById } from "../CartPage/cartPageSlice";
 
-export default function ProductPage () {
+export default function SingleProductPage () {
     const {id} = useParams();
 
     const dispatch = useDispatch();

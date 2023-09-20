@@ -7,6 +7,7 @@ const ProductPageItem = ({ title, price, descr, value, id, img }) => {
 
     useEffect(() => {
         const html = descr.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        console.log(html);
         setHtml(html);
     }, [descr])
 

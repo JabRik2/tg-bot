@@ -2,7 +2,7 @@
 import { styled } from '@mui/material';
 import Container from '@mui/material/Container';
 // react-router
-import { Route, Routes, Navigate, HashRouter } from "react-router-dom";
+import { Route, Routes, Navigate, HashRouter, BrowserRouter } from "react-router-dom";
 // Components
 import ProductsListPage from '../../pages/ProductsListPage/ProductsListPage';
 import CategoriesListPage from '../../pages/CategoriesListPage/CategoriesListPage';
@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       <StyledContainer maxWidth='xs'>
-        <HashRouter>
+        <BrowserRouter>
           <Routes>
             <Route path='' element={<HomeRoutes/>} >
               <Route path='' element={<Navigate to={'/categories'}/>} />
@@ -36,7 +36,7 @@ function App() {
               <Route path='/products/:id' element={<SingleProductPage />} />
             </Route>
           </Routes>
-        </HashRouter>
+        </BrowserRouter>
       </StyledContainer>
     </>
   );

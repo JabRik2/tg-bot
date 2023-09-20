@@ -12,7 +12,7 @@ const initialState = {
 export const fetchProductById = createAsyncThunk(
     'product/fetchProductById',
     async (id) => {
-        return (await axios.get(`https://my-json-server.typicode.com/JabRik2/json/products/${id}`)).data;
+        return (await axios.get(`http://localhost:8000/id_product/${id}`)).data;
     }
 );
 
@@ -29,6 +29,7 @@ const SingleProductPageSlice = createSlice({
                 return {...state, loadingStatus: 'error'};
             })
             .addCase(fetchProductById.fulfilled, (state, action) => {
+                // console.log(action.payload);
                 return {
                     ...state, 
                     loadingStatus: 'idle',

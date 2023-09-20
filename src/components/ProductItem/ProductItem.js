@@ -35,7 +35,7 @@ export default function ProductItem({src, title, price, id, value}) {
             </Link>
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <b>Цена:</b> {price} ₽
+          <b>Цена:</b> <b>{price} ₽</b> 
         </Typography>
         <div style={{marginTop: 10, display: 'flex', justifyContent: 'center'}}>
             <AddButton src={src} title={title} price={price} id={id} value={value} />

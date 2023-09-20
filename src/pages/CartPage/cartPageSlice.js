@@ -8,7 +8,7 @@ const initialState = {
 export const fetchUserById = createAsyncThunk(
     'cart/fetchUserById',
     async (id) => {
-        return (await axios.get(`https://my-json-server.typicode.com/JabRik2/json/users/${id}`)).data;
+        return (await axios.get(`http://localhost:8000/id_name/${id}`)).data;
     }
 );
 export const fetchPostUserCart = createAsyncThunk(
@@ -20,7 +20,8 @@ export const fetchPostUserCart = createAsyncThunk(
             count: value,
             price: price
         };
-        return (await axios.patch(`https://my-json-server.typicode.com/JabRik2/json/users/${userId}`, {
+        return (await axios.post(`http://localhost:8000/user_cart`, {
+            userId,
             cart: {
                 ...data
             }}, {signal})

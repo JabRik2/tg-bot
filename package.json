@@ -1,6 +1,7 @@
 {
   "name": "tg-app",
   "version": "0.1.0",
+  "proxy": "http://localhost:8000/",
   "homepage": "https://jabrik2.github.io/tg-bot",
   "private": true,
   "dependencies": {

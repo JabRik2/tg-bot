@@ -10,7 +10,7 @@ const initialState = {
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async () => {
-        return (await axios.get('https://my-json-server.typicode.com/JabRik2/json/products')).data;
+        return (await axios.get('http://localhost:8000/product')).data;
     }
 )
 
